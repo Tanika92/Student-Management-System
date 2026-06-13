@@ -67,7 +67,7 @@ void addStudent() {
     cin>>s.physics;
      cout<< "Enter Chemistry Marks: ";
     cin>>s.chemistry;
-    s.percentage=(s.marks+s.physics+s.chemistry)/3.0;
+    s.percentage=(s.maths+s.physics+s.chemistry)/3.0;
     if(s.percentage>=90)
         s.grade='A';
     else if(s.percentage>=75)
@@ -155,12 +155,12 @@ void deleteStudent() {
 }
 void displayTopper()
 {
-if(student.empty())
+if(students.empty())
 {
 cout<<"No student found.\n";
 return;
 }
-Student Topper=students[0];
+Student topper=students[0];
 for(const auto& s:students)
 {
 if(s.percentage>topper.percentage)
