@@ -9,6 +9,11 @@ struct Student {
     string name;
     int age;
     string course;
+    float maths;
+    float physics;
+    float chemistry;
+    float percentage;
+    char grade;
 };
 
 vector<Student> students;
@@ -23,7 +28,12 @@ void loadFromFile() {
         infile >> s.age;
         infile.ignore();
         getline(infile, s.course);
-
+        infile>>s.maths;
+         infile>>s.physics;
+         infile>>s.chemistry;
+         infile>>s.percentage;
+         infile>>s.grade;
+        infile.ignore();
         // Make sure all fields are read properly
         if (!infile.fail())
             students.push_back(s);
@@ -34,7 +44,7 @@ void loadFromFile() {
 void saveToFile() {
     ofstream outfile("students.txt");
     for (const auto& s : students) {
-        outfile << s.id << endl << s.name << endl << s.age << endl << s.course << endl;
+        outfile << s.id << endl << s.name << endl << s.age << endl << s.course << endl<<s.maths<<endl<<s.physics<<endl<<s.chemistry<<endl<<s.percentage<<endl<<s.grade<<endl;
     }
     outfile.close();
 }
@@ -51,7 +61,21 @@ void addStudent() {
     cin.ignore();
     cout << "Enter Course: ";
     getline(cin, s.course);
-
+    cout<< "Enter Maths Marks: ";
+    cin>>s.maths;
+     cout<< "Enter Physics Marks: ";
+    cin>>s.physics;
+     cout<< "Enter Chemistry Marks: ";
+    cin>>s.chemistry;
+    s.percentage=(s.marks+s.physics+s.chemistry)/3.0;
+    if(s.percentage>=90)
+        s.grade='A';
+    else if(s.percentage>=75)
+        s.grade='B';
+    else if(s.percentage>=60)
+        s.grade='C';
+    else
+        s.grade='D';
     students.push_back(s);
     saveToFile();
     cout << "Student added successfully.\n";
@@ -66,7 +90,12 @@ void displayStudents() {
         cout << "\nID: " << s.id
              << "\nName: " << s.name
              << "\nAge: " << s.age
-             << "\nCourse: " << s.course << "\n";
+             << "\nCourse: " << s.course
+            <<"\nMaths: "<<s.maths
+            <<"\nPhysics: "<<s.physics
+            <<"\nChemistry: "<<s.chemistry
+            <<"\nPercentage: "<<s.percentage
+            <<"\nGrade: "<<s.grade;
     }
 }
 
@@ -124,6 +153,24 @@ void deleteStudent() {
     }
     cout << "Student not found.\n";
 }
+void displayTopper()
+{
+if(student.empty())
+{
+cout<<"No student found.\n";
+return;
+}
+Student Topper=students[0];
+for(const auto& s:students)
+{
+if(s.percentage>topper.percentage)
+{
+topper=s;
+}
+}
+cout<<"\nTopper:"<<topper.name;
+cout<<"\nPercentage:"<<topper.percentage;
+}
 
 int main() {
     loadFromFile();
@@ -140,9 +187,10 @@ int main() {
             case 3: searchStudent(); break;
             case 4: updateStudent(); break;
             case 5: deleteStudent(); break;
-            case 6: cout << "Exiting...\n"; break;
+            case 6: displayTopper(); break;
+            case 7: cout << "Exiting...\n"; break;
             default: cout << "Invalid choice!\n";
         }
-    } while (choice != 6);
+    } while (choice != 7);
     return 0;
 }
