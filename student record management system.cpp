@@ -3,7 +3,6 @@
 #include <vector>
 #include <string>
 using namespace std;
-
 struct Student {
     int id;
     string name;
@@ -15,9 +14,7 @@ struct Student {
     float percentage;
     char grade;
 };
-
 vector<Student> students;
-
 void loadFromFile() {
     ifstream infile("students.txt");
     students.clear();
@@ -171,6 +168,31 @@ topper=s;
 cout<<"\nTopper:"<<topper.name;
 cout<<"\nPercentage:"<<topper.percentage;
 }
+void displayStatistics()
+{
+    if(students.empty())
+    {
+        cout<<"No students found.\n";
+        return;
+    }
+    float totalPercentage=0;
+    float highest=students[0].percentage;
+    float lowest=students[0].percentage;
+    for(const auto& s:students)
+    {
+        totalPercentage+=s.percentage;
+        if(s.percentage>highest)
+        highest=s.percentage;
+        if(s.percentage<lowest)
+        lowest=s.percentage;
+    }
+    float average=totalPercentage/students.size();
+    cout<<"\n====CLASS STATISTICS====\n";
+    cout<<"Total Students: "<<students.size()<<endl;
+    cout<<"Average Percentage: "<<average<<endl;
+    cout<<"Highest Percentage: "<<highest<<endl;
+    cout<<"Lowest Percentage: "<<lowest<<endl;
+}
 
 int main() {
     loadFromFile();
@@ -188,9 +210,10 @@ int main() {
             case 4: updateStudent(); break;
             case 5: deleteStudent(); break;
             case 6: displayTopper(); break;
-            case 7: cout << "Exiting...\n"; break;
+            case 7: displayStatistics(); break;
+            case 8: cout << "Exiting...\n"; break;
             default: cout << "Invalid choice!\n";
         }
-    } while (choice != 7);
+    } while (choice != 8);
     return 0;
 }
